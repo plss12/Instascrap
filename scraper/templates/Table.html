@@ -1,0 +1,16 @@
+<table class="table"></table>
+    <thead>
+        <tr>
+            <th>Usuarios</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in data %}
+            <tr>
+                <td>{{ user.user }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.profile }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

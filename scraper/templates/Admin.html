@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .btn-custom {
+            width: 200px; /* Fija el ancho de los botones */
+            font-size: 16px; /* Aumenta el tamaño de la fuente para mejor legibilidad */
+            background-color: #d3d3d3; /* Color gris claro personalizado */
+            color: black; /* Cambiar el color del texto si es necesario */
+        }
+        .custom-hr {
+            width: 50%; /* Ajusta el ancho a la mitad del contenedor */
+            border: 1px solid #000; /* Define el grosor y el color de la línea */
+        }
+        .form-container {
+            max-width: 600px; /* Ajusta el ancho máximo del formulario */
+            margin: 0 auto; /* Centra el formulario en la página */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1>Panel de Admin</h1>
+            <hr class="custom-hr">
+            <div class="row justify-content-center">
+                <form action="/scraping_admin" method="POST" class="mt-3">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="user">Usuario Público:</label>
+                        <input type="text" class="form-control" id="user" name="user" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom mb-3">Iniciar Scrap</button>
+                </form>
+            </div>
+            </br>
+            <form action="/scraping_admin" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-custom mb-3">Iniciar Scrap Propio</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

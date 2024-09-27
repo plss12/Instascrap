@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .usuario-perfil {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .perfil-imagen {
+            border: 2px solid #ddd; /* Borde de la imagen */
+        }
+        .usuario-info h5 {
+            margin: 0;
+        }
+        .estadisticas {
+            display: flex;
+            gap: 15px; /* Espacio entre las estadísticas */
+        }
+        .custom-hr {
+            width: 50%; /* Ajusta el ancho a la mitad del contenedor */
+            border: 1px solid #000; /* Define el grosor y el color de la línea */
+        }
+        .btn-custom {
+            width: 200px; /* Fija el ancho de los botones */
+            font-size: 16px; /* Aumenta el tamaño de la fuente para mejor legibilidad */
+            background-color: #d3d3d3; /* Color gris claro personalizado */
+            color: black; /* Cambiar el color del texto si es necesario */
+            background-color: #f8f9fa; /* Color por defecto */
+            border: 1px solid #ccc;
+        }
+        .btn-custom.active {
+            /* Estilo para el botón activo */
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-custom:focus {
+        outline: none; /* Quita el aro azul alrededor del botón */
+        box-shadow: none; /* Elimina cualquier sombra adicional */
+        }
+    </style>
+    <script>
+        function toggleButton(buttonId) {
+            const button = document.getElementById(buttonId);
+            button.classList.toggle('active');
+
+            // Obtener el estado de ambos botones
+            const followersActive = document.getElementById('btn-followers').classList.contains('active');
+            const followingActive = document.getElementById('btn-following').classList.contains('active');
+
+            // Determinar qué datos enviar al servidor
+            let dataType;
+            if (followersActive && followingActive) {
+                dataType = 'both'; // Ambos botones están activos
+            } else if (followersActive) {
+                dataType = 'followers'; // Solo el botón de seguidores
+            } else if (followingActive) {
+                dataType = 'following'; // Solo el botón de siguiendo
+            } else {
+                dataType = 'none'; // Ningún botón activo
+            }
+
+            // Enviar la solicitud al servidor
+            fetch(`/update_data/?type=${dataType}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('data-container').innerHTML = data.html;
+                });
+
+            // Cambia el estilo del botón
+            if (button.classList.contains('active')) {
+                button.style.backgroundColor = '#007bff';
+                button.style.color = '#fff';
+            } else {
+                button.style.backgroundColor = '';
+                button.style.color = '';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1>Resultados para el usuario: @{{ usuario.profile }}</h1>
+            <hr class="custom-hr">
+            <!-- <div class="usuario-perfil d-flex align-items-center mt-4">
+                <img src="{{ usuario.img }}" style="display: block; width: 50px; height: 50px; border-radius: 50%;">
+                <div class="estadisticas ms-auto text-center">
+                    <div>
+                        <strong>{{ usuario.followers }}</strong> seguidores
+                    </div>
+                    <div>
+                        <strong>{{ usuario.followings }}</strong> siguiendo
+                    </div>
+                </div>
+            </div> -->
+            <div class="d-flex justify-content-center my-4">
+                <button id="btn-followers" class="btn btn-custom mx-2" onclick="toggleButton('btn-followers')">
+                    {{ usuario.followers }} Followers
+                </button>
+                <button id="btn-following" class="btn btn-custom mx-2" onclick="toggleButton('btn-following')">
+                    {{ usuario.followings }} Following
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
