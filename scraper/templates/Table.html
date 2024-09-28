@@ -1,16 +1,23 @@
-<table class="table"></table>
-    <thead>
-        <tr>
-            <th>Usuarios</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in data %}
+<div class="mt-4">
+    <h3>{{ text }}</h3>
+    <table class="table  table-custom table-bordered mt-4">
+        <thead>
             <tr>
-                <td>{{ user.user }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.profile }}</td>
+                <th>#</th>
+                <th>Usuario</th>
+                <th>Nombre</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for user in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="https://www.instagram.com/{{ user.user }}/" target="_blank" style="color: inherit; text-decoration: none;">
+                        {{ user.user }}
+                    </a></td>
+                    <td>{{ user.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

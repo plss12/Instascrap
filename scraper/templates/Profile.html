@@ -31,8 +31,6 @@
             font-size: 16px; /* Aumenta el tamaño de la fuente para mejor legibilidad */
             background-color: #d3d3d3; /* Color gris claro personalizado */
             color: black; /* Cambiar el color del texto si es necesario */
-            background-color: #f8f9fa; /* Color por defecto */
-            border: 1px solid #ccc;
         }
         .btn-custom.active {
             /* Estilo para el botón activo */
@@ -42,6 +40,10 @@
         .btn-custom:focus {
         outline: none; /* Quita el aro azul alrededor del botón */
         box-shadow: none; /* Elimina cualquier sombra adicional */
+        }
+        .table-custom th {
+        background-color: #d3d3d3; /* Color de fondo igual al de los botones */
+        color: black; /* Color del texto de la cabecera */
         }
     </style>
     <script>
@@ -66,7 +68,7 @@
             }
 
             // Enviar la solicitud al servidor
-            fetch(`/update_data/?type=${dataType}`)
+            fetch(`/profile/?type=${dataType}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('data-container').innerHTML = data.html;
@@ -106,6 +108,10 @@
                 <button id="btn-following" class="btn btn-custom mx-2" onclick="toggleButton('btn-following')">
                     {{ usuario.followings }} Following
                 </button>
+            </div>
+
+            <div id="data-container" class="mt-4">
+                
             </div>
         </div>
     </div>
