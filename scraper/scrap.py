@@ -86,6 +86,7 @@ def start_scraping(input_user=None, input_password=None, admin=False):
                 return "Usuario privado"
             #Público o credenciales
             else: 
+                Insta.objects.filter(profile=profile).delete()
                 extract(0, profile, driver)
                 extract(1, profile, driver)
         except:
