@@ -146,7 +146,11 @@ def extract(mode, profile, driver):
     # Usuarios de la lista completa
     users_divs = target_div.find_elements(By.XPATH, './*/child::*')
 
+    print(f"Usuarios Encontrados: {len(users_divs)}")
+    print(f"Usuarios Reales: {count}")
+    
     if len(users_divs) < count:
+    # if False:
         close_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[type="button"]')))
         close_button.click()
 

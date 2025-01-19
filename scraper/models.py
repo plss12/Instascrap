@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import URLValidator
 
 class Insta(models.Model):
     profile = models.CharField(max_length=255)
