@@ -30,13 +30,17 @@ def start_scraping(input_user=None, input_password=None, admin=False):
     
     # Configuración del perfil de usuario de Chrome
     chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = "C:/Users/pepol/Desktop/Programas/chrome-win64/chrome.exe"
+
     chrome_options.add_argument("start-maximized")
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument('--user-data-dir=C:/Users/pepol/AppData/Local/Google/Chrome/User Data')
+    chrome_options.add_argument("--remote-allow-origins=*")
+
+    chrome_options.add_argument('--user-data-dir=C:/Users/pepol/AppData/Local/Google/Chrome for Testing/User Data')
     chrome_options.add_argument('--profile-directory=Default')
 
     # Instalar el chromedriver automáticamente e iniciar el navegador
@@ -104,11 +108,10 @@ def extract(mode, profile, driver):
 
     # Obtener datos del perfil
     try:
-        photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="Cambiar foto del perfil"]'))).get_attribute('src')
+        photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="Change profile photo"]'))).get_attribute('src')
     except:
-        photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="Foto del perfil"]'))).get_attribute('src')
+        photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="profile picture"]'))).get_attribute('src')
 
-    print(photo)
     followers_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[href*="/followers/"]')))
     followings_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[href*="/following/"]')))
     followers = int("".join(filter(str.isdigit, followers_element.text)))
@@ -160,7 +163,7 @@ def extract(mode, profile, driver):
 
         for user_div in users_divs:
             # user = user_div.find_element(By.CSS_SELECTOR, 'a.notranslate[href*="/"][href*="/"]')
-            photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][crossorigin="anonymous"][alt*="Foto del perfil"]'))).get_attribute('src')
+            photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][crossorigin="anonymous"][alt*="profile picture"]'))).get_attribute('src')
             user, name = wait.until(lambda driver: user_div.find_elements(By.CSS_SELECTOR, 'span[dir="auto"]'))
 
             insert_insta(profile, user.text, name.text, photo, mode)
