@@ -128,7 +128,7 @@ def extract(mode, profile, driver):
         count = int(followings)
         followings_element.click()
 
-    # Ventana emergente con segudidos/Seguidores
+    # Ventana emergente con Seguidos/Seguidores
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[role="dialog"]')))
     # Lista de perfiles dentro de la ventana
     target_div = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[style="height: auto; overflow: hidden auto;"]')))
@@ -162,10 +162,8 @@ def extract(mode, profile, driver):
     else:  
 
         for user_div in users_divs:
-            # user = user_div.find_element(By.CSS_SELECTOR, 'a.notranslate[href*="/"][href*="/"]')
-            photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][crossorigin="anonymous"][alt*="profile picture"]'))).get_attribute('src')
+            photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="s profile picture"]'))).get_attribute('src')
             user, name = wait.until(lambda driver: user_div.find_elements(By.CSS_SELECTOR, 'span[dir="auto"]'))
-
             insert_insta(profile, user.text, name.text, photo, mode)
 
     close_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[type="button"]')))
