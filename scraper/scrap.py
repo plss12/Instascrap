@@ -40,12 +40,16 @@ def start_scraping(input_user=None, input_password=None, admin=False):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--remote-allow-origins=*")
 
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+
     chrome_options.add_argument('--user-data-dir=C:/Users/pepol/AppData/Local/Google/Chrome for Testing/User Data')
     chrome_options.add_argument('--profile-directory=Default')
 
     # Instalar el chromedriver automáticamente e iniciar el navegador
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     wait = WebDriverWait(driver, 10)
 
     try:
@@ -112,8 +116,8 @@ def extract(mode, profile, driver):
     except:
         photo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'img[src][alt*="profile picture"]'))).get_attribute('src')
 
-    followers_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[href*="/followers/"]')))
-    followings_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[href*="/following/"]')))
+    followers_element = wait.until(EC.presence_of_element_located((By.XPATH, '//span[contains(text(), "followers")]')))
+    followings_element = wait.until(EC.presence_of_element_located((By.XPATH, '//span[contains(text(), "following")]')))
     followers = int("".join(filter(str.isdigit, followers_element.text)))
     followings = int("".join(filter(str.isdigit, followings_element.text)))
 
@@ -152,8 +156,8 @@ def extract(mode, profile, driver):
     print(f"Usuarios Encontrados: {len(users_divs)}")
     print(f"Usuarios Reales: {count}")
     
-    if len(users_divs) < count:
-    # if False:
+    # if len(users_divs) < count:
+    if False:
         close_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[type="button"]')))
         close_button.click()
 
